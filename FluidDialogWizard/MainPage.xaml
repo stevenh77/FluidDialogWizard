@@ -5,10 +5,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+    xmlns:fluidDialogWizard="clr-namespace:FluidDialogWizard"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-    mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400">
+    mc:Ignorable="d">
 
     <Grid x:Name="LayoutRoot" Background="White">
         <VisualStateManager.CustomVisualStateManager>
@@ -17,7 +16,7 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="ActionButtonsVisualStateGroup">
                 <VisualStateGroup.Transitions>
-                    <VisualTransition GeneratedDuration="0:0:0.3">
+                    <VisualTransition GeneratedDuration="0:0:0.6">
                         <VisualTransition.GeneratedEasingFunction>
                             <CubicEase EasingMode="EaseOut"/>
                         </VisualTransition.GeneratedEasingFunction>
@@ -27,36 +26,20 @@
                 </VisualState>
                 <VisualState x:Name="Open">
                     <Storyboard>
-                        <DoubleAnimation BeginTime="0:0:1" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ActionButtonContainer"/>
-                        <DoubleAnimation BeginTime="0:0:1" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ActionButtonContainer"/>
-                        <DoubleAnimation Duration="0:0:1.3" To="110" Storyboard.TargetProperty="Height" Storyboard.TargetName="ActionButtonsGrid"/>
+                        <DoubleAnimation BeginTime="0:0:1.5" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ActionButtonContainer"/>
+                        <DoubleAnimation BeginTime="0:0:1.5" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ActionButtonContainer"/>
+                        <DoubleAnimation Duration="0:0:1.8" To="110" Storyboard.TargetProperty="Height" Storyboard.TargetName="ActionButtonsGrid"/>
+                        <DoubleAnimation Duration="0:0:1.8" To="650" Storyboard.TargetProperty="Height" Storyboard.TargetName="PopupContentContainer"/>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
-            <!--<VisualStateGroup x:Name="NavigationVisualStateGroup">
-                <VisualStateGroup.Transitions>
-                    <VisualTransition GeneratedDuration="0:0:0.3">
-                        <ei:ExtendedVisualStateManager.TransitionEffect>
-                            <ee:SlideInTransitionEffect SlideDirection="RightToLeft"/>
-                        </ei:ExtendedVisualStateManager.TransitionEffect>
-                    </VisualTransition>
-                </VisualStateGroup.Transitions>
-                <VisualState x:Name="NavigatedVisualState"/>
-                <VisualState x:Name="DefaultVisualState"/>
-            </VisualStateGroup>-->
         </VisualStateManager.VisualStateGroups>
 
         <Button x:Name="OpenDialogButton" Content="Open Dialog" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" Click="OpenDialogButton_Click"/>
 
-        <Popup x:Name="Popup" >
+        <Popup x:Name="Popup">
 
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="Opened">
-                    <ei:GoToStateAction StateName="Normal"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-
-            <Grid x:Name="PopupContentContainer" Background="#FF2D2D30" Width="460" Height="640">
+            <Grid x:Name="PopupContentContainer" Background="#FF2D2D30" Width="460" Height="540">
 
                 <i:Interaction.Behaviors>
                     <ei:MouseDragElementBehavior/>
@@ -70,7 +53,8 @@
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="100"></RowDefinition>
+                    <RowDefinition Height="340"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -98,27 +82,76 @@
                     <TextBlock Text="Fluid Dialog Wizard for SL5" Foreground="White"/>
                     <TextBlock Text="written by Steven Hollidge" FontSize="18" Foreground="#FFB3B3B3"/>
                 </StackPanel>
-                
-                <!--<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
-                    <sdk:Frame x:Name="ContentFrame" Source="/Views/Page0.xaml">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Navigated">
-                                <ei:GoToStateAction StateName="DefaultVisualState" UseTransitions="True"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="Navigating">
-                                <ei:GoToStateAction StateName="NavigatedVisualState"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>                        
-                    </sdk:Frame>
-                </Grid>-->
-                
-                <Grid x:Name="ActionButtonsGrid" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Background="#FF252526" Height="0">
+
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                    <fluidDialogWizard:ModernTabControlUi x:Name="ModernTabControlUi">
+                        <sdk:TabItem>
+                            <StackPanel Margin="30,0,30,0">
+                                <TextBlock 
+                                           FontFamily="Segoe UI Light"
+                                           FontSize="20"
+                                           Text="Welcome"
+                                           Foreground="White"/>
+                                <TextBlock Margin="0,10,0,0"
+                                            FontFamily="Segoe UI"
+                                            FontSize="12"
+                                            Text="Let's get started by clicking the button below."
+                                            Foreground="#FFB3B3B3"/>
+                                <Button x:Name="StartButton" Margin="0,200,0,0" Click="StartButton_OnClick">Start</Button>
+                            </StackPanel>
+                        </sdk:TabItem>
+                        <sdk:TabItem>
+                            <StackPanel Margin="30,0,30,0">
+                                <TextBlock 
+                                           FontFamily="Segoe UI Light"
+                                           FontSize="20"
+                                           Text="Step One"
+                                           Foreground="White"/>
+                                <TextBlock Margin="0,10,0,0"
+                                           FontFamily="Segoe UI"
+                                           FontSize="12"
+                                           Text="You can click the buttons below to jump between the steps."
+                                           Foreground="#FFB3B3B3"/>
+                            </StackPanel>
+                        </sdk:TabItem>
+                        <sdk:TabItem>
+                            <StackPanel Margin="30,0,30,0">
+                                <TextBlock FontFamily="Segoe UI Light"
+                                       FontSize="20"
+                                       Text="Step Two"
+                                       Foreground="White"/>
+                                <TextBlock Margin="0,10,0,0"
+                                       FontFamily="Segoe UI"
+                                       FontSize="12"
+                                       Text="This is nice, we've managed to get this far and we're almost there."
+                                       Foreground="#FFB3B3B3"/>
+                            </StackPanel>
+                        </sdk:TabItem>
+                        <sdk:TabItem>
+                            <StackPanel Margin="30,0,30,0">
+                                <TextBlock 
+                                           FontFamily="Segoe UI Light"
+                                           FontSize="20"
+                                           Text="Step Three"
+                                           Foreground="White"/>
+                                <TextBlock Margin="0,10,0,0"
+                                           FontFamily="Segoe UI"
+                                           FontSize="12"
+                                           Text="Well done you've made it to the end!"
+                                           Foreground="#FFB3B3B3"/>
+                                <Button x:Name="FinishButton" Margin="0,200,0,0" Click="FinishButton_OnClick">Finish</Button>
+                            </StackPanel>
+                        </sdk:TabItem>
+                    </fluidDialogWizard:ModernTabControlUi>
+                </Grid>
+
+                <Grid x:Name="ActionButtonsGrid" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Background="#FF252526" Height="0">
 
                     <StackPanel x:Name="ActionButtonContainer" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" RenderTransformOrigin="0.5,0.5">
                         <StackPanel.RenderTransform>
-                            <CompositeTransform TranslateX="400" TranslateY="-70" />
+                            <CompositeTransform TranslateX="400" TranslateY="-40" />
                         </StackPanel.RenderTransform>
-                        
+
                         <Button x:Name="OneButton" Margin="0,0,5,0" Click="OneButton_OnClick">
                             <TextBlock Text="One" FontFamily="Verdana" FontSize="12" />
                         </Button>
