@@ -28,8 +28,8 @@
                     <Storyboard>
                         <DoubleAnimation BeginTime="0:0:1.5" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ActionButtonContainer"/>
                         <DoubleAnimation BeginTime="0:0:1.5" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ActionButtonContainer"/>
-                        <DoubleAnimation Duration="0:0:1.8" To="110" Storyboard.TargetProperty="Height" Storyboard.TargetName="ActionButtonsGrid"/>
-                        <DoubleAnimation Duration="0:0:1.8" To="650" Storyboard.TargetProperty="Height" Storyboard.TargetName="PopupContentContainer"/>
+                        <DoubleAnimation Duration="0:0:1.8" To="70" Storyboard.TargetProperty="Height" Storyboard.TargetName="ActionButtonsGrid"/>
+                        <DoubleAnimation Duration="0:0:1.8" To="560" Storyboard.TargetProperty="Height" Storyboard.TargetName="PopupContentContainer"/>
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>
@@ -39,7 +39,7 @@
 
         <Popup x:Name="Popup">
 
-            <Grid x:Name="PopupContentContainer" Background="#FF2D2D30" Width="460" Height="540" fluidDialogWizard:Clip.ToBounds="true">
+            <Grid x:Name="PopupContentContainer" Background="#FF2D2D30" Width="460" Height="490" fluidDialogWizard:Clip.ToBounds="true">
 
                 <i:Interaction.Behaviors>
                     <ei:MouseDragElementBehavior/>
@@ -54,13 +54,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"></RowDefinition>
                     <RowDefinition Height="100"></RowDefinition>
-                    <RowDefinition Height="340"></RowDefinition>
+                    <RowDefinition Height="290"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                
-                <Grid.Clip>
-                    <RectangleGeometry Rect="100 75 50 50"/>
-                </Grid.Clip>
                 
                 <Border BorderBrush="Black" BorderThickness="1" Grid.RowSpan="4" Grid.ColumnSpan="3" />
 
@@ -101,7 +97,7 @@
                                             FontSize="12"
                                             Text="Let's get started by clicking the button below."
                                             Foreground="#FFB3B3B3"/>
-                                <Button x:Name="StartButton" Margin="0,200,0,0" Click="StartButton_OnClick">Start</Button>
+                                <Button x:Name="StartButton" Margin="0,140,0,0" Click="StartButton_OnClick">Start</Button>
                             </StackPanel>
                         </sdk:TabItem>
                         <sdk:TabItem>
@@ -143,7 +139,7 @@
                                            FontSize="12"
                                            Text="Well done you've made it to the end!"
                                            Foreground="#FFB3B3B3"/>
-                                <Button x:Name="FinishButton" Margin="0,200,0,0" Click="FinishButton_OnClick">Finish</Button>
+                                <Button x:Name="FinishButton" Margin="0,140,0,0" Click="FinishButton_OnClick">Finish</Button>
                             </StackPanel>
                         </sdk:TabItem>
                     </fluidDialogWizard:ModernTabControlUi>
