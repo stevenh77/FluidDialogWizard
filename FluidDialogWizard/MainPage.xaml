@@ -5,109 +5,130 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
-	<UserControl.Resources>
-		<Style TargetType="Button">
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="90"/>
-            <Setter Property="Background" Value="#FF252526"/>
-            <Setter Property="Foreground" Value="#FFB3B3B3"/>
-            <Setter Property="BorderBrush" Value="#FF626263"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Grid>
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualStateGroup.Transitions>
-										<VisualTransition GeneratedDuration="0:0:0.3"/>
-									</VisualStateGroup.Transitions>
-									<VisualState x:Name="Normal"/>
-									<VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                                                <SplineColorKeyFrame KeyTime="00:00:00.3000000" Value="#FF0899FB"/>
-                                            </ColorAnimationUsingKeyFrames>
-                                            <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)">
-                                                <SplineColorKeyFrame KeyTime="00:00:00.3000000" Value="#FF424244"/>
-                                            </ColorAnimationUsingKeyFrames>
-                                        </Storyboard>
-									</VisualState>
-									<VisualState x:Name="Pressed" />
-									<VisualState x:Name="Disabled">
-										<Storyboard>
-											<DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
-										</Storyboard>
-									</VisualState>
-								</VisualStateGroup>
-								<VisualStateGroup x:Name="FocusStates">
-									<VisualState x:Name="Focused">
-									</VisualState>
-									<VisualState x:Name="Unfocused"/>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-							<Border x:Name="Border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                    BorderThickness="{TemplateBinding BorderThickness}"/>
-							<ContentPresenter x:Name="contentPresenter" 
-                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
-                                              Content="{TemplateBinding Content}" 
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                              Margin="{TemplateBinding Padding}" 
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-						</Grid>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</UserControl.Resources>
-    
+
     <Grid x:Name="LayoutRoot" Background="White">
-        <Button x:Name="OpenCloseDialogButton" Content="Open / Close Dialog" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" Click="OpenCloseDialogButton_Click"/>
-        <Popup x:Name="Popup">
+        <VisualStateManager.CustomVisualStateManager>
+            <ei:ExtendedVisualStateManager/>
+        </VisualStateManager.CustomVisualStateManager>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ActionButtonsVisualStateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.3">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Closed">
+                </VisualState>
+                <VisualState x:Name="Open">
+                    <Storyboard>
+                        <DoubleAnimation BeginTime="0:0:1" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ActionButtonContainer"/>
+                        <DoubleAnimation BeginTime="0:0:1" Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ActionButtonContainer"/>
+                        <DoubleAnimation Duration="0:0:1.3" To="110" Storyboard.TargetProperty="Height" Storyboard.TargetName="ActionButtonsGrid"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+            <!--<VisualStateGroup x:Name="NavigationVisualStateGroup">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.3">
+                        <ei:ExtendedVisualStateManager.TransitionEffect>
+                            <ee:SlideInTransitionEffect SlideDirection="RightToLeft"/>
+                        </ei:ExtendedVisualStateManager.TransitionEffect>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="NavigatedVisualState"/>
+                <VisualState x:Name="DefaultVisualState"/>
+            </VisualStateGroup>-->
+        </VisualStateManager.VisualStateGroups>
+
+        <Button x:Name="OpenDialogButton" Content="Open Dialog" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" Click="OpenDialogButton_Click"/>
+
+        <Popup x:Name="Popup" >
+
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="Opened">
+                    <ei:GoToStateAction StateName="Normal"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+
             <Grid x:Name="PopupContentContainer" Background="#FF2D2D30" Width="460" Height="640">
+
                 <i:Interaction.Behaviors>
                     <ei:MouseDragElementBehavior/>
                 </i:Interaction.Behaviors>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="100"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="90"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="CloseButton" Grid.Column="2" Margin="0,10,10,0" 
+                <Border BorderBrush="Black" BorderThickness="1" Grid.RowSpan="4" Grid.ColumnSpan="3" />
+
+                <Button x:Name="CloseButton" Grid.Row="0" Grid.Column="2" Margin="0,10,10,0" 
                         VerticalAlignment="Top" HorizontalAlignment="Right" 
                         Height="25" Width="25"
                         BorderBrush="{Binding Background, ElementName=PopupContentContainer}" 
                         Background="{Binding Background, ElementName=PopupContentContainer}"  
-                        Foreground="White">
+                        Foreground="White"
+                        Click="CloseButton_OnClick">
                     <TextBlock Text="X" FontFamily="Verdana" FontSize="8" />
                 </Button>
 
-                <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Background="#FF252526">
-                    
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20">
-                        <Button x:Name="RetryButton" Margin="0,0,5,0">
-                            <TextBlock Text="Retry" FontFamily="Verdana" FontSize="12" />
+                <StackPanel Margin="30,30,0,0" Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top"
+                            Grid.Row="0" Grid.Column="0" 
+                            Grid.ColumnSpan="3">
+                    <Image Height="40" Source="vs-logo.png" />
+                    <TextBlock Text="Silverblade Tech" FontFamily="Segoe UI Bold" FontSize="32" Foreground="White" Margin="12,0,0,0"/>
+                </StackPanel>
+
+                <Polygon Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2,0,0,0" Points="0,0 20,20, 0,40" Stroke="#FF4B4B4D" Fill="#FF4B4B4D" />
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="30,0,0,0">
+                    <TextBlock Text="Fluid Dialog Wizard for SL5" Foreground="White"/>
+                    <TextBlock Text="written by Steven Hollidge" FontSize="18" Foreground="#FFB3B3B3"/>
+                </StackPanel>
+                
+                <!--<Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+                    <sdk:Frame x:Name="ContentFrame" Source="/Views/Page0.xaml">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Navigated">
+                                <ei:GoToStateAction StateName="DefaultVisualState" UseTransitions="True"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Navigating">
+                                <ei:GoToStateAction StateName="NavigatedVisualState"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>                        
+                    </sdk:Frame>
+                </Grid>-->
+                
+                <Grid x:Name="ActionButtonsGrid" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Background="#FF252526" Height="0">
+
+                    <StackPanel x:Name="ActionButtonContainer" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" RenderTransformOrigin="0.5,0.5">
+                        <StackPanel.RenderTransform>
+                            <CompositeTransform TranslateX="400" TranslateY="-70" />
+                        </StackPanel.RenderTransform>
+                        
+                        <Button x:Name="OneButton" Margin="0,0,5,0" Click="OneButton_OnClick">
+                            <TextBlock Text="One" FontFamily="Verdana" FontSize="12" />
                         </Button>
 
-                        <Button x:Name="ContinueButton" Margin="5,0,5,0">
-                            <TextBlock Text="Continue" FontFamily="Verdana" FontSize="12" />
+                        <Button x:Name="TwoButton" Margin="5,0,5,0" Click="TwoButton_OnClick">
+                            <TextBlock Text="Two" FontFamily="Verdana" FontSize="12" />
                         </Button>
 
-                        <Button x:Name="CancelButton" Margin="5,0,0,0">
-                            <TextBlock Text="Cancel" FontFamily="Verdana" FontSize="12" />
+                        <Button x:Name="ThreeButton" Margin="5,0,5,0" Click="ThreeButton_OnClick">
+                            <TextBlock Text="Three" FontFamily="Verdana" FontSize="12" />
                         </Button>
                     </StackPanel>
 
